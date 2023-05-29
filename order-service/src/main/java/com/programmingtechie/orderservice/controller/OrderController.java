@@ -22,12 +22,12 @@ public class OrderController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @CircuitBreaker(name = "inventory", fallbackMethod = "fallbackMethod")
-    @TimeLimiter(name = "inventory")
-    @Retry(name = "inventory")
-    public CompletableFuture<String> placeOrder(@RequestBody OrderRequest orderRequest) {
+    @CircuitBreaker(name = "inventory", fallbackMethod = "fallbackMethod") //circuit breaker pattern
+    @TimeLimiter(name = "inventory") //latency circuit breaker , key should be same as annotation in properties files
+    @Retry(name = "inventory") // retry for latency issues
+    public CompletableFuture<String> placeOrder(@RequestBody OrderRequest orderRequest) { // completable future because async call
         log.info("Placing Order");
-        return CompletableFuture.supplyAsync(() -> orderService.placeOrder(orderRequest));
+        return CompletableFuture.supplyAsync(() -> orderService.placeOrder(orderRequest)); // separate thread
     }
 
     public CompletableFuture<String> fallbackMethod(OrderRequest orderRequest, RuntimeException runtimeException) {
