@@ -26,6 +26,7 @@ import java.util.UUID;
 @Slf4j
 public class OrderService {
 
+    //can use tracer to create our own span id
     private final OrderRepository orderRepository;
     private final WebClient.Builder webClientBuilder;
     private final ObservationRegistry observationRegistry;

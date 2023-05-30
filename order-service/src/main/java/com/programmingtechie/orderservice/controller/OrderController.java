@@ -27,7 +27,7 @@ public class OrderController {
     @Retry(name = "inventory") // retry for latency issues
     public CompletableFuture<String> placeOrder(@RequestBody OrderRequest orderRequest) { // completable future because async call
         log.info("Placing Order");
-        return CompletableFuture.supplyAsync(() -> orderService.placeOrder(orderRequest)); // separate thread
+        return CompletableFuture.supplyAsync(() -> orderService.placeOrder(orderRequest)); // separate thread hence present in a separate instance in zipkin as well
     }
 
     public CompletableFuture<String> fallbackMethod(OrderRequest orderRequest, RuntimeException runtimeException) {
