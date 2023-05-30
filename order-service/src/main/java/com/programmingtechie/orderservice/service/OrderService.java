@@ -29,7 +29,11 @@ public class OrderService {
     //can use tracer to create our own span id
     private final OrderRepository orderRepository;
     private final WebClient.Builder webClientBuilder;
+
+
     private final ObservationRegistry observationRegistry;
+
+    // kafka template
     private final ApplicationEventPublisher applicationEventPublisher;
 
     public String placeOrder(OrderRequest orderRequest) {
@@ -65,7 +69,7 @@ public class OrderService {
 
             if (allProductsInStock) {
                 orderRepository.save(order);
-                // publish Order Placed Event
+                // publish Order Placed Event kafkaTmeplate uses key value
                 applicationEventPublisher.publishEvent(new OrderPlacedEvent(this, order.getOrderNumber()));
                 return "Order Placed";
             } else {

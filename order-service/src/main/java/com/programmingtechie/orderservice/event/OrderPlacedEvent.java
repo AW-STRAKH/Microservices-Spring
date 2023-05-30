@@ -7,6 +7,7 @@ import org.springframework.context.ApplicationEvent;
 
 @Getter
 @Setter
+// class for kafka events
 public class OrderPlacedEvent extends ApplicationEvent {
     private String orderNumber;
 
